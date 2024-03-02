@@ -17,7 +17,7 @@ const RestaurantCard = ({ item, index }) => {
         }
       >
         <img
-          className="w-full h-[10rem] rounded-t-md object-cover"
+          className="w-full h-[10rem] rounded-t-md object-cover cursor-pointer"
           src={item.imageUrl}
           alt=""
         />
