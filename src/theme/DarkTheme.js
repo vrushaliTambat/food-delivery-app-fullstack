@@ -10,7 +10,7 @@ export const darkTheme=createTheme({
           main: '#5A20CB'
         },
         black: {
-            main:'#242B2E'
+          main:'#242B2E'
         },
         background: {
             main:'#000000',

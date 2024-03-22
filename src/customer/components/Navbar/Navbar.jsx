@@ -26,7 +26,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="px-5 z-50 py-[0.8rem] bg-[#e9a483] lg:px-20 flex justify-between">
+    <nav className="px-5 sticky z-50 top-0 py-[0.8rem] bg-[#e9a483] lg:px-20 flex justify-between">
       <div className="flex items-center space-x-4">
         <div
           className="lg:mr-10 cursor-pointer flex items-center space-x-4"
