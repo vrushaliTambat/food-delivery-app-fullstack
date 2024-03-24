@@ -1,4 +1,5 @@
 import {
+  Card,
   Divider,
   FormControl,
   FormControlLabel,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import MenuItemCard from "./MenuItemCard";
 
 const categories = [
   "Thali",
@@ -19,6 +21,7 @@ const categories = [
 ];
 
 const foodType = ["Vegetarian Only", "Non-Vegetarian Only", "Both"];
+const menu = [1, 1, 1, 1, 1, 1];
 
 const Restaurant = () => {
   const [selectedCategory, setSelectedCategory] = useState();
@@ -29,7 +32,7 @@ const Restaurant = () => {
   };
 
   const handleCategoryChange = () => {
-    console.log("Selected category", selectedCategory);
+    console.log("Selected category-", selectedCategory);
   };
   return (
     <div className="px-5 lg:px-20">
@@ -56,7 +59,9 @@ const Restaurant = () => {
       <Divider />
       <section className="pt-[2rem] lg:flex relative">
         <div className="space-y-10 lg:w-[20%]">
-          <div className="space-y-5 lg:sticky top-28">
+          <Card className="p-5 space-y-5 lg:sticky top-28">
+            {/* categories menu */}
+
             <div>
               <Typography sx={{ paddingBottom: "1rem" }} variant="h5">
                 Category
@@ -80,9 +85,11 @@ const Restaurant = () => {
               </FormControl>
             </div>
             <Divider />
+
+            {/* foodtype menu */}
             <div>
               <Typography sx={{ paddingBottom: "1rem" }} variant="h5">
-                Category
+                Food Type
               </Typography>
               <FormControl component={"fieldset"}>
                 <RadioGroup
@@ -102,7 +109,12 @@ const Restaurant = () => {
                 </RadioGroup>
               </FormControl>
             </div>
-          </div>
+          </Card>
+        </div>
+        <div className="lg:w-[80%] space-y-5 lg:pl-10">
+          {menu.map((item) => (
+            <MenuItemCard item={item} />
+          ))}
         </div>
       </section>
     </div>
