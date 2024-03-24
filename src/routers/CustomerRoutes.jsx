@@ -14,9 +14,10 @@ const CustomerRoutes = () => {
       </div>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/account/:register" element={<HomePage />} />
         <Route path="/restaurant/:city/:name/:id" element={<Restaurant />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/my-profile" element={<Profile />} />
+        <Route path="/my-profile/*" element={<Profile />} />
       </Routes>
     </div>
   );

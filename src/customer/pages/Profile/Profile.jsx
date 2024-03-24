@@ -20,7 +20,6 @@ const Profile = () => {
           <Route path="/orders" element={<Orders />} />
           <Route path="/address" element={<UsersAddresses />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/payments" element={<Orders />} />
           <Route path="/events" element={<Events />} />
         </Routes>
       </div>
