@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Avatar, Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import "./Navbar.css";
 
@@ -18,12 +18,12 @@ const Navbar = () => {
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-  const handleLogout = () => {
-    console.log("handle logout");
-  };
+  // const handleCloseMenu = () => {
+  //   setAnchorEl(null);
+  // };
+  // const handleLogout = () => {
+  //   console.log("handle logout");
+  // };
 
   return (
     <nav className="px-5 sticky z-50 top-0 py-[0.8rem] bg-[#e9a483] lg:px-20 flex justify-between">
@@ -35,11 +35,27 @@ const Navbar = () => {
           <li className="logo font-semibold text-2xl">Food Rush</li>
         </div>
       </div>
-      <div className="flex items-center space-x-2">
-        <IconButton>
-          <SearchIcon sx={{ fontSize: "1.5rem" }} />
-        </IconButton>
-        {true ? (
+      <div className="flex items-center space-x-2 lg:space-x-10">
+        <div className="">
+          <IconButton>
+            <SearchIcon sx={{ fontSize: "1.5rem" }} />
+          </IconButton>
+        </div>
+
+        <div className="">
+          {false ? (
+            <Avatar sx={{ bgcolor: "white", color: "#e9a483" }}>C</Avatar>
+          ) : (
+            <IconButton
+              onClick={() => {
+                navigate("/account/login");
+              }}
+            >
+              <PersonIcon />
+            </IconButton>
+          )}
+        </div>
+        {/* {true ? (
           <span
             id="basic-button"
             aria-controls={openMenu ? "basic-menu" : undefined}
@@ -47,15 +63,18 @@ const Navbar = () => {
             aria-expanded={openMenu ? "true" : undefined}
             onClick={true ? handleOpenMenu : navigateToProfile}
             className="font-semibold cursor-pointer"
+          > */}
+        {/* <div>
+          <IconButton
+            onClick={() => {
+              navigate("/account/login");
+            }}
           >
-            Vrush
-          </span>
-        ) : (
-          <IconButton>
             <PersonIcon sx={{ fontSize: "1.5rem" }} />
           </IconButton>
-        )}
-        <Menu
+        </div> */}
+
+        {/* <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={openMenu}
@@ -66,9 +85,11 @@ const Navbar = () => {
         >
           <MenuItem onClick={() => navigate("/admin")}>Profile</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>
+        </Menu> */}
         <IconButton onClick={() => navigate("/cart")}>
-          <RestaurantIcon sx={{ fontSize: "1.5rem" }} />
+          <Badge color="black" badgeContent={3}>
+            <RestaurantIcon sx={{ fontSize: "1.5rem" }} />
+          </Badge>
         </IconButton>
       </div>
     </nav>
