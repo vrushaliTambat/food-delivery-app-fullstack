@@ -3,6 +3,7 @@ import "./HomePage.css";
 import MultipleItemCarousel from "./MultipleItemCarousel";
 import { restaurants } from "../../../Data/Restaurants";
 import RestaurantCard from "./RestaurantCard";
+import Auth from "../Auth/Auth";
 
 const HomePage = () => {
   return (
