@@ -5,8 +5,10 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { Avatar, Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import "./Navbar.css";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { auth } = useSelector((store) => store);
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
 
@@ -43,8 +45,10 @@ const Navbar = () => {
         </div>
 
         <div className="">
-          {false ? (
-            <Avatar sx={{ bgcolor: "white", color: "#e9a483" }}>C</Avatar>
+          {auth.user ? (
+            <Avatar sx={{ bgcolor: "white", color: "#e9a483" }}>
+              {auth.user?.fullName[0].toUpperCase()}
+            </Avatar>
           ) : (
             <IconButton
               onClick={() => {
