@@ -63,6 +63,8 @@ export const getUser=(jwt)=>async(dispatch)=>{
         console.log("error ------ ",error)
       }
 }
+// This function returns another function, which is an
+// asynchronous function that takes dispatch as its argument.(redux-thunk related)
 export const addToFavorite=({jwt,restaurantId})=>async(dispatch)=>{
     dispatch({ type: ADD_TO_FAVORITES_REQUEST });
 
