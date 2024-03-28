@@ -8,6 +8,8 @@ import EventIcon from "@mui/icons-material/Event";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Divider, Drawer, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../State/Authentication/Action";
 
 const menu = [
   { title: "Orders", icon: <ShoppingBagIcon /> },
@@ -22,12 +24,15 @@ const menu = [
 const ProfileNavigation = ({ open, handleClose }) => {
   const isSmallScreen = useMediaQuery("(max-width:1080px)");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleNavigate = (item) => {
-    navigate(`/my-profile/${item.title.toLowerCase()}`);
-    // if (item.title === "Logout") {
-    //   handleLogout();
-    //   navigate("/");
-    //}
+    if (item.title === "Logout") {
+      dispatch(logout());
+      navigate("/");
+    } else {
+      navigate(`/my-profile/${item.title.toLowerCase()}`);
+    }
   };
   return (
     <div>
