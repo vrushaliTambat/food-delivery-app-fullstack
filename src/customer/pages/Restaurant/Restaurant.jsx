@@ -3,12 +3,15 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
+  Grid,
   Radio,
   RadioGroup,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import MenuItemCard from "./MenuItemCard";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 const categories = [
   "Thali",
@@ -18,21 +21,27 @@ const categories = [
   "Dessert",
   "Drinks",
   "Fast Food",
+  "Chicken",
 ];
 
-const foodType = ["Vegetarian Only", "Non-Vegetarian Only", "Both"];
+const foodTypes = [
+  { label: "All", value: "all" },
+  { label: "Vegetarian Only", value: "vegetarian" },
+  { label: "Non-Vegetarian Only", value: "non_vegetarian" },
+  { label: "Seasonal", value: "seasonal" },
+];
 const menu = [1, 1, 1, 1, 1, 1];
 
 const Restaurant = () => {
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [selectedFoodType, setSelectedFoodtype] = useState();
+  const [foodType, setFoodType] = useState("all");
+  //const [selectedFoodType, setSelectedFoodtype] = useState();
 
-  const handleFoodTypeChange = () => {
-    console.log("Selected Food Type- ", selectedFoodType);
-  };
+  // const handleFoodTypeChange = () => {
+  //   console.log("Selected Food Type- ", selectedFoodType);
+  // };
 
-  const handleCategoryChange = () => {
-    console.log("Selected category-", selectedCategory);
+  const handleFilter = (e) => {
+    console.log(e.target.value, e.target.name);
   };
   return (
     <div className="px-5 lg:px-20">
@@ -41,76 +50,101 @@ const Restaurant = () => {
           {`Home/India/Food Rush/2/Order Online`}
         </h3>
         <div>
-          <img
-            className="w-full h-[40vh] object-cover"
-            src="https://qph.cf2.quoracdn.net/main-qimg-4ffaba0a5fd743d323df1125b2dc1b6c"
-            alt=""
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <img
+                className="w-full h-[40vh] object-cover"
+                src="https://qph.cf2.quoracdn.net/main-qimg-4ffaba0a5fd743d323df1125b2dc1b6c"
+                alt=""
+              />
+            </Grid>
+
+            <Grid item xs={12} lg={6}>
+              <img
+                className="w-full h-[40vh] object-cover"
+                src="https://media.istockphoto.com/id/667442560/photo/restaurant-chilling-out-classy-lifestyle-reserved-concept.jpg?s=612x612&w=0&k=20&c=YgLQM26TAb3738AS-UyvFDLpVKqj9kJjW5e9Ll6dU-8="
+                alt=""
+              />
+            </Grid>
+
+            <Grid item xs={12} lg={6}>
+              <img
+                className="w-full h-[40vh] object-cover"
+                src="https://cdn.pixabay.com/photo/2016/11/18/15/53/breakfast-1835478_1280.jpg"
+                alt=""
+              />
+            </Grid>
+          </Grid>
         </div>
-        <div>
-          <h1 className="text-4xl py-1 font-semibold">{`Fuel Headquarters`}</h1>
-          <p className="text-gray-400">Pasta, Coffee, Fast Food Cafe</p>
-          <p className="py-3 text-purple-300">
-            {" "}
-            Open now 10:30 am - 12midnight
-          </p>
+
+        <div className="pt-3 pb-5">
+          <h1 className="text-4xl  font-semibold">{`Fuel Headquarters`}</h1>
+          <p className="text-gray-500 mt-1">Pasta, Coffee, Fast Food Cafe</p>
+          <div className="space-y-3 mt-3">
+            <p className="text-gray-400 flex items-center gap-3">
+              <LocationOnIcon />
+              <span>Near Fulton Street, New York</span>
+            </p>
+            <p className="text-gray-400 flex items-center gap-3">
+              <CalendarTodayIcon />
+              <span>Mon-Sun: 10:00AM - 10:00PM (Today)</span>
+            </p>
+          </div>
         </div>
       </section>
       <Divider />
-      <section className="pt-[2rem] lg:flex relative">
-        <div className="space-y-10 lg:w-[20%]">
-          <Card className="p-5 space-y-5 lg:sticky top-28">
-            {/* categories menu */}
 
+      <section className="pt-[2rem] lg:flex relative">
+        <div className="space-y-10 lg:w-[20%] filter">
+          <div className="box space-y-5 lg:sticky top-28">
             <div>
               <Typography sx={{ paddingBottom: "1rem" }} variant="h5">
-                Category
+                Food Type
               </Typography>
-              <FormControl component={"fieldset"}>
+
+              <FormControl className="py-10 space-y-5 " component={"fieldset"}>
                 <RadioGroup
-                  name="category"
-                  value={selectedCategory}
-                  onChange={handleCategoryChange}
+                  onChange={handleFilter}
+                  name="food_type"
+                  value={foodType}
                 >
-                  {categories.map((item, index) => (
+                  {foodTypes.map((item) => (
                     <FormControlLabel
-                      key={index}
-                      value={item}
+                      key={item.value}
+                      value={item.value}
                       control={<Radio />}
-                      label={item}
-                      sx={{ color: "gray" }}
+                      label={item.label}
                     />
                   ))}
                 </RadioGroup>
               </FormControl>
             </div>
             <Divider />
-
-            {/* foodtype menu */}
             <div>
               <Typography sx={{ paddingBottom: "1rem" }} variant="h5">
-                Food Type
+                Food Category
               </Typography>
-              <FormControl component={"fieldset"}>
+
+              <FormControl className="py-10 space-y-5 " component={"fieldset"}>
                 <RadioGroup
-                  name="foodType"
-                  value={selectedFoodType}
-                  onChange={handleFoodTypeChange}
+                  onChange={handleFilter}
+                  name="food_category"
+                  value={foodType}
                 >
-                  {foodType.map((item, index) => (
+                  {categories.map((item) => (
                     <FormControlLabel
-                      key={index}
+                      key={item}
                       value={item}
                       control={<Radio />}
                       label={item}
-                      sx={{ color: "gray" }}
                     />
                   ))}
                 </RadioGroup>
               </FormControl>
             </div>
-          </Card>
+          </div>
         </div>
+
         <div className="lg:w-[80%] space-y-5 lg:pl-10">
           {menu.map((item) => (
             <MenuItemCard item={item} />

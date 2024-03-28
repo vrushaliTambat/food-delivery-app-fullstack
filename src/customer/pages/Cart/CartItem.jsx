@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Chip, IconButton } from "@mui/material";
 import React from "react";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -31,6 +31,11 @@ const CartItem = () => {
           </div>
           <p>₹199</p>
         </div>
+      </div>
+      <div className="pt-3 space-x-2">
+        {[1, 1, 1].map((item) => (
+          <Chip label={"bread"} />
+        ))}
       </div>
     </div>
   );

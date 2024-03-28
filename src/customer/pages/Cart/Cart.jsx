@@ -14,7 +14,7 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 
-const cartItems = [1, 1, 1, 1];
+const cartItems = [1, 1, 1];
 const addresses = [1, 1, 1, 1, 1];
 export const style = {
   position: "absolute",
@@ -48,8 +48,8 @@ const Cart = () => {
     console.log("create order");
   };
   const handleOpenAddressModal = () => {
-    setOpenAddressModal(true);
-    console.log("handle open address modal");
+    //setOpenAddressModal(true);
+    //console.log("handle open address modal");
   };
   const handleSubmit = (values) => {
     console.log("handl submit- ", values);
@@ -60,15 +60,16 @@ const Cart = () => {
   };
 
   return (
-    <Fragment>
+    <div>
       <main className="lg:flex justify-between">
-        <section className="lg:w-[30%] space-y-6 min-h-screen pt-10">
+        <section className="lg:w-[30%] space-y-6 lg: min-h-screen pt-10">
           <div className="space-y-6">
             {cartItems.map((item) => (
               <CartItem />
             ))}
           </div>
           <Divider />
+
           <div className="billDetails px-5 text-sm">
             <p className="font-extralight py-5">Bill Details</p>
             <div className="space-y-3">
@@ -98,35 +99,40 @@ const Cart = () => {
         </section>
         <Divider orientation="vertical" flexItem />
 
-        <section className="lg:w-[70%] px-5">
-          <h1 className="text-center font-semibold text-2xl py-10">
-            Choose Delivery Address
-          </h1>
-          <div className="flex flex-wrap justify-between">
-            {addresses.map((item1) => (
-              <AddressCard
-                showButton={true}
-                //  here item1 is the addresses array ka address and
-                // item is the item prop passed to the AddressCard component(child component)
-                item={item1}
-                handleSelectAddress={createOrderUsingSelectedAddress}
-              />
-            ))}
+        <section className="lg:w-[70%] px-5 flex justify-center px-5 pb-10 lg:pb-0">
+          <div>
+            <h1 className="text-center font-semibold text-2xl py-10">
+              Choose Delivery Address
+            </h1>
 
-            <Card className="flex space-x-5 lg:w-64 m-5 p-5">
-              <AddLocationAltIcon />
-              <div className="space-y-3 text-gray-500">
-                <p>Add New Address</p>
-                <Button
-                  onClick={handleOpenAddressModal}
-                  fullWidth
-                  variant="contained"
-                  sx={{ padding: ".75rem" }}
-                >
-                  Add
-                </Button>
-              </div>
-            </Card>
+            <div className="flex gap-5 flex-wrap justify-center">
+              {addresses.map((item1) => (
+                <AddressCard
+                  showButton={true}
+                  //  here item1 is the addresses array ka address and
+                  // item is the item prop passed to the AddressCard component(child component)
+                  item={item1}
+                  handleSelectAddress={createOrderUsingSelectedAddress}
+                />
+              ))}
+
+              <Card className="flex space-x-5 lg:w-64 m-5 p-5">
+                <AddLocationAltIcon />
+                <div className="space-y-3 text-gray-500">
+                  <h1 className="font-semibold text-lg text-white">
+                    Add New Address
+                  </h1>
+                  <Button
+                    onClick={handleOpenAddressModal}
+                    fullWidth
+                    variant="contained"
+                    sx={{ padding: ".75rem" }}
+                  >
+                    Add
+                  </Button>
+                </div>
+              </Card>
+            </div>
           </div>
         </section>
       </main>
@@ -213,7 +219,7 @@ const Cart = () => {
           </Formik>
         </Box>
       </Modal>
-    </Fragment>
+    </div>
   );
 };
 
