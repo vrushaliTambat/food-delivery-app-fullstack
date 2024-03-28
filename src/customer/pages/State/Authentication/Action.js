@@ -30,6 +30,7 @@ export const loginUser=(reqData)=>async(dispatch)=>{
     try {
         //This line sends a POST request to ${API_URL}/auth/signup endpoint, passing reqData.userData as the request data. 
         const { data } = await axios.post(`${API_URL}/auth/signin`, reqData.userData);
+        //setting key value pair inside localStorage jwt
         if(data.jwt) localStorage.setItem("jwt",data.jwt)
         if(data.role==="ROLE_RESTAURANT_OWNER"){
           reqData.navigate("/admin/restaurant")

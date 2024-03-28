@@ -10,11 +10,16 @@ import { useEffect } from 'react';
 import { getUser } from './customer/pages/State/Authentication/Action';
 
 function App() {
+  //get usera ction ned sto be diaptched when the application 
+  //is rendered for the first time that's why we write in App.js
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
+  //getting auth reducer from store
   const { auth } = useSelector((store) => store);
 
+  //when auth.jwt value chnages thatis when user logs in or registers then the function will be executed
   useEffect(() => {
+    //if auth.jwt is true or present, use auth.jwt, otherwise use jwt(one from localStorage)
       dispatch(getUser(auth.jwt || jwt));
   }, [auth.jwt]);
 

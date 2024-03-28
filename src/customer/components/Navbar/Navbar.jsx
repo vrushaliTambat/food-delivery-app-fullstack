@@ -14,12 +14,20 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const navigateToProfile = () => {
-    navigate("/my-profile");
+  const handleAvatarClick = () => {
+    if (auth.user?.role === "ROLE_CUSTOMER") {
+      navigate("/my-profile");
+    } else {
+      navigate("/admin/restaurant");
+    }
   };
-  const handleOpenMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+
+  // const navigateToProfile = () => {
+  //   navigate("/my-profile");
+  // };
+  // const handleOpenMenu = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   // const handleCloseMenu = () => {
   //   setAnchorEl(null);
   // };
@@ -30,11 +38,13 @@ const Navbar = () => {
   return (
     <nav className="px-5 sticky z-50 top-0 py-[0.8rem] bg-[#e9a483] lg:px-20 flex justify-between">
       <div className="flex items-center space-x-4">
-        <div
-          className="lg:mr-10 cursor-pointer flex items-center space-x-4"
-          onClick={() => navigate("/")}
-        >
-          <li className="logo font-semibold text-2xl">Food Rush</li>
+        <div className="lg:mr-10 cursor-pointer flex items-center space-x-4">
+          <li
+            onClick={() => navigate("/")}
+            className="logo font-semibold text-2xl"
+          >
+            Food Rush
+          </li>
         </div>
       </div>
       <div className="flex items-center space-x-2 lg:space-x-10">
@@ -46,7 +56,10 @@ const Navbar = () => {
 
         <div className="">
           {auth.user ? (
-            <Avatar sx={{ bgcolor: "white", color: "#e9a483" }}>
+            <Avatar
+              onClick={handleAvatarClick}
+              sx={{ bgcolor: "white", color: "#e9a483" }}
+            >
               {auth.user?.fullName[0].toUpperCase()}
             </Avatar>
           ) : (
