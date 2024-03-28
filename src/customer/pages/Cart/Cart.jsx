@@ -48,8 +48,8 @@ const Cart = () => {
     console.log("create order");
   };
   const handleOpenAddressModal = () => {
-    //setOpenAddressModal(true);
-    //console.log("handle open address modal");
+    setOpenAddressModal(true);
+    console.log("handle open address modal");
   };
   const handleSubmit = (values) => {
     console.log("handl submit- ", values);
@@ -60,7 +60,7 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <>
       <main className="lg:flex justify-between">
         <section className="lg:w-[30%] space-y-6 lg: min-h-screen pt-10">
           <div className="space-y-6">
@@ -219,7 +219,7 @@ const Cart = () => {
           </Formik>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
 
