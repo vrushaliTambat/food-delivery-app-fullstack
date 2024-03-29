@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./HomePage.css";
 import MultipleItemCarousel from "./MultipleItemCarousel";
 import { restaurants } from "../../../Data/Restaurants";
 import RestaurantCard from "./RestaurantCard";
-import Auth from "../Auth/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllRestaurantsAction } from "../State/Restaurant/Action";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  //to access restaurant from store all fields present inside restaurant reducer will be accssible here.
+  const { restaurant } = useSelector((store) => store);
+  const navigate = useNavigate();
+
+  console.log("restaurant", restaurant);
+
+  useEffect(() => {
+    dispatch(getAllRestaurantsAction(jwt));
+  }, []);
+
   return (
     <div className="pb-10">
       <section className="-z-50 banner relative flex flex-col justify-center items-center">
@@ -35,7 +49,7 @@ const HomePage = () => {
             Order from our Handpicked Favorites
           </h1>
           <div className="flex flex-wrap items-center justify-around">
-            {restaurants.map((item) => (
+            {restaurant.restaurants.map((item) => (
               <RestaurantCard item={item} />
             ))}
           </div>

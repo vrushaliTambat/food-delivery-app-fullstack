@@ -31,7 +31,9 @@ export const authReducer = (state = initialState, action) => {
             ...state,
             isLoading: false,
             user: action.payload,
-            //favorites: action.payload.favorites,
+            //in the user profile api(postman) we have a favorites list that will be 
+            //fetched(whenevr user profile creation is success) and stored in the favorites array of state.
+            favorites: action.payload.favorites,
           };
       
         case ADD_TO_FAVORITES_SUCCESS:

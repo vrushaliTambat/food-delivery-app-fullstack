@@ -1,5 +1,5 @@
 // actions.js
-import axios from "axios";
+import { api } from "../../../components/config/api.js";
 import {
   UPDATE_ORDER_STATUS_REQUEST,
   UPDATE_ORDER_STATUS_SUCCESS,
@@ -8,7 +8,7 @@ import {
   GET_RESTAURANTS_ORDER_SUCCESS,
   GET_RESTAURANTS_ORDER_FAILURE,
 } from "./ActionType.js";
-import { api } from "../../../config/api.js";
+
 
 export const updateOrderStatus = ({orderId,orderStatus,jwt}) => {
   return async (dispatch) => {

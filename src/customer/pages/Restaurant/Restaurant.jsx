@@ -8,10 +8,13 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuItemCard from "./MenuItemCard";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantById } from "../State/Restaurant/Action";
 
 const categories = [
   "Thali",
@@ -34,15 +37,25 @@ const menu = [1, 1, 1, 1, 1, 1];
 
 const Restaurant = () => {
   const [foodType, setFoodType] = useState("all");
-  //const [selectedFoodType, setSelectedFoodtype] = useState();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { auth, restaurant } = useSelector((store) => store);
 
-  // const handleFoodTypeChange = () => {
-  //   console.log("Selected Food Type- ", selectedFoodType);
-  // };
+  //in CustomerRoutes we have given the id in url we can access that city using useParams
+  //can access city and name like  const { id,city } = useParams();
+  const { id } = useParams();
 
   const handleFilter = (e) => {
     console.log(e.target.value, e.target.name);
   };
+  console.log("restaurant", restaurant);
+
+  //now we have the restaurant details inside restaurant field
+  useEffect(() => {
+    dispatch(getRestaurantById({ jwt, restaurantId: id }));
+  }, []);
+
   return (
     <div className="px-5 lg:px-20">
       <section>
@@ -78,7 +91,7 @@ const Restaurant = () => {
         </div>
 
         <div className="pt-3 pb-5">
-          <h1 className="text-4xl  font-semibold">{`Fuel Headquarters`}</h1>
+          <h1 className="text-4xl font-semibold">{`Fuel Headquarters`}</h1>
           <p className="text-gray-500 mt-1">Pasta, Coffee, Fast Food Cafe</p>
           <div className="space-y-3 mt-3">
             <p className="text-gray-400 flex items-center gap-3">
