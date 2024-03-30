@@ -14,18 +14,21 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantById } from "../State/Restaurant/Action";
+import {
+  getRestaurantById,
+  getRestaurantsCategory,
+} from "../State/Restaurant/Action";
 
-const categories = [
-  "Thali",
-  "Snacks",
-  "Indian Main Course",
-  "Rice and Biryani",
-  "Dessert",
-  "Drinks",
-  "Fast Food",
-  "Chicken",
-];
+// const categories = [
+//   "Thali",
+//   "Snacks",
+//   "Indian Main Course",
+//   "Rice and Biryani",
+//   "Dessert",
+//   "Drinks",
+//   "Fast Food",
+//   "Chicken",
+// ];
 
 const foodTypes = [
   { label: "All", value: "all" },
@@ -54,6 +57,7 @@ const Restaurant = () => {
   //now we have the restaurant details inside restaurant field
   useEffect(() => {
     dispatch(getRestaurantById({ jwt, restaurantId: id }));
+    dispatch(getRestaurantsCategory({ jwt, restaurantId: id }));
   }, []);
 
   return (
@@ -67,7 +71,7 @@ const Restaurant = () => {
             <Grid item xs={12}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://qph.cf2.quoracdn.net/main-qimg-4ffaba0a5fd743d323df1125b2dc1b6c"
+                src={restaurant.restaurant?.images[0]}
                 alt=""
               />
             </Grid>
@@ -75,7 +79,7 @@ const Restaurant = () => {
             <Grid item xs={12} lg={6}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://media.istockphoto.com/id/667442560/photo/restaurant-chilling-out-classy-lifestyle-reserved-concept.jpg?s=612x612&w=0&k=20&c=YgLQM26TAb3738AS-UyvFDLpVKqj9kJjW5e9Ll6dU-8="
+                src={restaurant.restaurant?.images[1]}
                 alt=""
               />
             </Grid>
@@ -91,8 +95,12 @@ const Restaurant = () => {
         </div>
 
         <div className="pt-3 pb-5">
-          <h1 className="text-4xl font-semibold">{`Fuel Headquarters`}</h1>
-          <p className="text-gray-500 mt-1">Pasta, Coffee, Fast Food Cafe</p>
+          <h1 className="text-4xl font-semibold">
+            {restaurant.restaurant?.name}
+          </h1>
+          <p className="text-gray-500 mt-1">
+            {restaurant.restaurant?.description}
+          </p>
           <div className="space-y-3 mt-3">
             <p className="text-gray-400 flex items-center gap-3">
               <LocationOnIcon />
@@ -144,12 +152,12 @@ const Restaurant = () => {
                   name="food_category"
                   value={foodType}
                 >
-                  {categories.map((item) => (
+                  {restaurant.categories.map((item) => (
                     <FormControlLabel
                       key={item}
                       value={item}
                       control={<Radio />}
-                      label={item}
+                      label={item.name}
                     />
                   ))}
                 </RadioGroup>
