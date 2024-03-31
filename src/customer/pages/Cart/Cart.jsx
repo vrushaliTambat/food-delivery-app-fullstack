@@ -13,8 +13,8 @@ import AddressCard from "./AddressCard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
 
-const cartItems = [1, 1, 1];
 const addresses = [1, 1, 1, 1, 1];
 export const style = {
   position: "absolute",
@@ -43,6 +43,7 @@ const validationSchema = Yup.object().shape({
 
 const Cart = () => {
   const [openAddressModal, setOpenAddressModal] = useState();
+  const { cart } = useSelector((store) => store);
 
   const createOrderUsingSelectedAddress = () => {
     console.log("create order");
@@ -64,8 +65,8 @@ const Cart = () => {
       <main className="lg:flex justify-between">
         <section className="lg:w-[30%] space-y-6 lg: min-h-screen pt-10">
           <div className="space-y-6">
-            {cartItems.map((item) => (
-              <CartItem />
+            {cart.cartItems.map((item) => (
+              <CartItem item={item} />
             ))}
           </div>
           <Divider />
@@ -75,24 +76,20 @@ const Cart = () => {
             <div className="space-y-3">
               <div className="flex justify-between text-gray-400">
                 <p>Item Total</p>
-                <p>₹500</p>
+                <p>${cart.cart.total}</p>
               </div>
               <div className="flex justify-between text-gray-400">
                 <p>Delivery Fee</p>
-                <p>₹21</p>
+                <p>$2</p>
               </div>
               <div className="flex justify-between text-gray-400">
-                <p>Platform fee</p>
-                <p>₹10</p>
-              </div>
-              <div className="flex justify-between text-gray-400">
-                <p>GST and Restaurant Charges</p>
-                <p>₹33</p>
+                <p>Tax and Restaurant Charges</p>
+                <p>$3</p>
               </div>
               <Divider />
               <div className="flex justify-between text-gray-400">
                 <p>Total Pay</p>
-                <p>₹564</p>
+                <p>${cart.cart.total + 5}</p>
               </div>
             </div>
           </div>
