@@ -6,6 +6,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRestaurantsAction } from "../State/Restaurant/Action";
 import { useNavigate } from "react-router-dom";
+import { findCart } from "../State/Cart/Action";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -33,8 +34,8 @@ const HomePage = () => {
         <div className="fadeout"></div>
       </section>
 
-      <section classname="p-10 lg:py-10 lg:px-20">
-        <div classname="">
+      <section className="p-10 lg:py-10 lg:px-20">
+        <div className="">
           <h1 className="text-2xl font-semibold text-gray-400 py-3 pb-10">
             Top Meals
           </h1>

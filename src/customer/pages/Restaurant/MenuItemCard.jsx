@@ -11,6 +11,8 @@ import {
 import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { categorizeIngredients } from "../util/categorizeIngredients";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../State/Cart/Action";
 
 const demo = [
   {
@@ -25,6 +27,7 @@ const demo = [
 
 const MenuItemCard = ({ item }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const dispatch = useDispatch();
 
   const handleCheckBoxChange = (itemName) => {
     console.log("value", itemName);
@@ -41,11 +44,12 @@ const MenuItemCard = ({ item }) => {
     const reqData = {
       token: localStorage.getItem("jwt"),
       cartItem: {
-        menuItemId: item.id,
+        foodId: item.id,
         quantity: 1,
         ingredients: selectedIngredients,
       },
     };
+    dispatch(addItemToCart(reqData));
     console.log("reqData---", reqData);
   };
 

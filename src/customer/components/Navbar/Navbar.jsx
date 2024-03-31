@@ -8,7 +8,7 @@ import "./Navbar.css";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { auth } = useSelector((store) => store);
+  const { auth, cart } = useSelector((store) => store);
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
 
@@ -104,7 +104,7 @@ const Navbar = () => {
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu> */}
         <IconButton onClick={() => navigate("/cart")}>
-          <Badge color="black" badgeContent={3}>
+          <Badge color="black" badgeContent={cart.cart?.items.length}>
             <RestaurantIcon sx={{ fontSize: "1.5rem" }} />
           </Badge>
         </IconButton>
