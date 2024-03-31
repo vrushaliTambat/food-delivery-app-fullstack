@@ -8,8 +8,9 @@ import {
   FormControlLabel,
   FormGroup,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { categorizeIngredients } from "../util/categorizeIngredients";
 
 const demo = [
   {
@@ -22,10 +23,32 @@ const demo = [
   },
 ];
 
-const MenuItemCard = () => {
-  const handleCheckBoxChange = (value) => {
-    console.log("value");
+const MenuItemCard = ({ item }) => {
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+  const handleCheckBoxChange = (itemName) => {
+    console.log("value", itemName);
+    if (selectedIngredients.includes(itemName)) {
+      setSelectedIngredients(
+        selectedIngredients.filter((item) => item !== itemName)
+      );
+    } else {
+      setSelectedIngredients([...selectedIngredients, itemName]);
+    }
   };
+  const handleAddItemToCart = (e) => {
+    e.preventDefault();
+    const reqData = {
+      token: localStorage.getItem("jwt"),
+      cartItem: {
+        menuItemId: item.id,
+        quantity: 1,
+        ingredients: selectedIngredients,
+      },
+    };
+    console.log("reqData---", reqData);
+  };
+
   return (
     <Accordion>
       <AccordionSummary
@@ -37,42 +60,56 @@ const MenuItemCard = () => {
           <div className="lg:flex items-center lg:gap-5">
             <img
               className="w-[7rem] h-[7rem] object-cover"
-              src="https://www.licious.in/blog/wp-content/uploads/2020/12/Hyderabadi-chicken-Biryani.jpg"
+              src={item.images[0]}
               alt=""
             />
 
             <div className="space-y-1 lg:space-y-5 lg:max-w-2xl">
-              <p className="font-semibold text-xl">Biryani</p>
-              <p>₹650</p>
-              <p className="text-gray-400">
-                Delicious Hyderabadi Chicken Dum Biryani
-              </p>
+              <p className="font-semibold text-xl">{item.name}</p>
+              <p>${item.price}</p>
+              <p className="text-gray-400">{item.description}</p>
             </div>
           </div>
         </div>
       </AccordionSummary>
       <AccordionDetails>
-        <form>
+        <form onSubmit={handleAddItemToCart}>
           <div className="flex gap-5 flex-wrap">
-            {demo.map((item) => (
-              <div>
-                <p>{item.category}</p>
-                <FormGroup>
-                  {item.ingredients.map((item) => (
-                    <FormControlLabel
-                      control={
-                        <Checkbox onChange={() => handleCheckBoxChange(item)} />
-                      }
-                      label={item}
-                    />
-                  ))}
-                </FormGroup>
-              </div>
-            ))}
+            {/* This part generates an array containing the keys of the object returned by the categorizeIngredients()
+These keys represent the unique category names derived from the ingredients. 
+and then map() method is called on the array of category names obtained from Object.keys(). For each category name in the array, 
+a new element is created using the provided function.*/}
+            {Object.keys(categorizeIngredients(item.ingredients)).map(
+              (category) => (
+                <div>
+                  <p>{category}</p>
+                  <FormGroup>
+                    {categorizeIngredients(item.ingredients)[category].map(
+                      (item) => (
+                        <FormControlLabel
+                          key={item.id}
+                          control={
+                            <Checkbox
+                              onChange={() => handleCheckBoxChange(item.name)}
+                            />
+                          }
+                          label={item.name}
+                        />
+                      )
+                    )}
+                  </FormGroup>
+                </div>
+              )
+            )}
           </div>
 
           <div className="pt-5">
-            <Button variant="contained" disabled={false} type="submit">
+            <Button
+              onClick={handleAddItemToCart}
+              variant="contained"
+              disabled={false}
+              type="submit"
+            >
               {true ? "Add To Cart" : "Out of Stock"}
             </Button>
           </div>
