@@ -13,9 +13,11 @@ import AddressCard from "./AddressCard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder } from "../State/Order/Action";
 
 const addresses = [1, 1, 1, 1, 1];
+
 export const style = {
   position: "absolute",
   top: "50%",
@@ -27,6 +29,7 @@ export const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const initialValues = {
   streetAddress: "",
   state: "",
@@ -43,7 +46,8 @@ const validationSchema = Yup.object().shape({
 
 const Cart = () => {
   const [openAddressModal, setOpenAddressModal] = useState();
-  const { cart } = useSelector((store) => store);
+  const { cart, auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   const createOrderUsingSelectedAddress = () => {
     console.log("create order");
@@ -53,6 +57,21 @@ const Cart = () => {
     console.log("handle open address modal");
   };
   const handleSubmit = (values) => {
+    const data = {
+      jwt: localStorage.getItem("jwt"),
+      order: {
+        restaurantId: cart.cartItems[0].food?.restaurant.id,
+        deliveryAddress: {
+          fullName: auth.user?.fullName,
+          streetAddress: values.streetAddress,
+          city: values.city,
+          state: values.state,
+          postalCode: values.pincode,
+          country: "United States",
+        },
+      },
+    };
+    dispatch(createOrder(data));
     console.log("handl submit- ", values);
   };
 
@@ -76,7 +95,7 @@ const Cart = () => {
             <div className="space-y-3">
               <div className="flex justify-between text-gray-400">
                 <p>Item Total</p>
-                <p>${cart.cart.total}</p>
+                <p>${cart.cart?.total}</p>
               </div>
               <div className="flex justify-between text-gray-400">
                 <p>Delivery Fee</p>
@@ -89,7 +108,7 @@ const Cart = () => {
               <Divider />
               <div className="flex justify-between text-gray-400">
                 <p>Total Pay</p>
-                <p>${cart.cart.total + 5}</p>
+                <p>${cart.cart?.total + 5}</p>
               </div>
             </div>
           </div>
