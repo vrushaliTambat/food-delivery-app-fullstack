@@ -6,6 +6,7 @@ import Navbar from "../customer/components/Navbar/Navbar";
 import Cart from "../customer/pages/Cart/Cart";
 import Profile from "../customer/pages/Profile/Profile";
 import Auth from "../customer/pages/Auth/Auth";
+import PaymentSuccess from "../customer/pages/PaymentSuccess/PaymentSuccess";
 
 const CustomerRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const CustomerRoutes = () => {
         <Route path="/restaurant/:city/:name/:id" element={<Restaurant />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/my-profile/*" element={<Profile />} />
+        <Route path="/payment/success/:id" element={<PaymentSuccess />} />
       </Routes>
       <Auth />
     </div>
