@@ -109,7 +109,7 @@ const Restaurant = () => {
             <Grid item xs={12} lg={6}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://cdn.pixabay.com/photo/2016/11/18/15/53/breakfast-1835478_1280.jpg"
+                src={restaurant.restaurant?.images[2]}
                 alt=""
               />
             </Grid>
