@@ -28,6 +28,7 @@ const RestaurantCard = ({ item }) => {
         className={`${true ? "cursor-pointer" : "cursor-not-allowed"} relative`}
       >
         <img
+          onClick={handleNavigateToRestaurant}
           className="w-full h-[10rem] rounded-t-md object-cover"
           src={item.images[0]}
           alt=""
