@@ -50,7 +50,7 @@ const AdminSideBar = ({ handleClose }) => {
           onClose={handleClose}
           variant={isSmallScreen ? "temporary" : "permanent"}
         >
-          <div className="w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center text-xl space-y-[1.65rem]">
+          <div className="w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center text-xl space-y-[1.65rem] cursor-pointer">
             {menu.map((item, i) => (
               <>
                 <div
