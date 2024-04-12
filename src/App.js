@@ -2,9 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { darkTheme } from './theme/DarkTheme';
-import HomePage from './customer/pages/HomePage/HomePage';
 import Routers from './routers/Routers';
-import CustomerRoutes from './routers/CustomerRoutes';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getUser } from './customer/pages/State/Authentication/Action';
@@ -29,7 +27,7 @@ function App() {
       return (
         <ThemeProvider theme = {darkTheme}>
         <CssBaseline/>
-       <CustomerRoutes/>
+        <Routers/>
         </ThemeProvider>
       )
   }
