@@ -16,7 +16,7 @@ import React from "react";
 
 const orders = [1, 1, 1, 1, 1, 1];
 
-const MenuTable = () => {
+const FoodCategoryTable = () => {
   return (
     <Box>
       <Card className="mt-1">
@@ -26,7 +26,7 @@ const MenuTable = () => {
               <Create />
             </IconButton>
           }
-          title={"Menu"}
+          title={"Food Category"}
           sx={{
             pt: 2,
             alignItems: "center",
@@ -37,12 +37,8 @@ const MenuTable = () => {
           <Table sx={{}} aria-label="table in dashboard">
             <TableHead>
               <TableRow>
-                <TableCell align="left">Image</TableCell>
-                <TableCell align="right">Title</TableCell>
-                <TableCell align="right">Ingredients</TableCell>
-                <TableCell align="right">Price</TableCell>
-                <TableCell align="right">Availability</TableCell>
-                <TableCell align="right">Delete</TableCell>
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Name</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -51,15 +47,7 @@ const MenuTable = () => {
                   <TableCell component="th" scope="row">
                     {1}
                   </TableCell>
-                  <TableCell align="right">{"image"}</TableCell>
-                  <TableCell align="right">{"123@gmail.com"}</TableCell>
-                  <TableCell align="right">{"price"}</TableCell>
-                  <TableCell align="right">{"sandwich"}</TableCell>
-                  <TableCell align="right">
-                    <IconButton>
-                      <Delete />
-                    </IconButton>
-                  </TableCell>
+                  <TableCell align="left">{"name"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -77,4 +65,4 @@ const MenuTable = () => {
   );
 };
 
-export default MenuTable;
+export default FoodCategoryTable;

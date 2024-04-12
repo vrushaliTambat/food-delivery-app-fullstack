@@ -28,14 +28,16 @@ const OrderTable = () => {
           <Table sx={{}} aria-label="table in dashboard">
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Image</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Ingredients</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>Update</TableCell>
+                <TableCell align="right">Id</TableCell>
+                <TableCell align="right">Image</TableCell>
+                <TableCell align="right">Customer</TableCell>
+                <TableCell align="right">Price</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Ingredients</TableCell>
+                <TableCell align="right">Status</TableCell>
+                <TableCell align="right" sx={{ textAlign: "center" }}>
+                  Update
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
