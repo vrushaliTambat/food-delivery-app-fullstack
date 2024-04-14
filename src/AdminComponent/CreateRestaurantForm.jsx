@@ -3,7 +3,9 @@ import { useFormik } from "formik";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { uploadImageToCloudinary } from "./UploadToCloudinary";
 
 const initialValues = {
   name: "",
@@ -24,10 +26,47 @@ const CreateRestaurantForm = () => {
   const [uploadImage, setUploadImage] = useState(false);
   const formik = useFormik({
     initialValues,
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      const data = {
+        name: values.name,
+        description: values.description,
+        cuisineType: values.cuisineType,
+        address: {
+          streetAddress: values.streetAddress,
+          city: values.city,
+          stateProvince: values.stateProvince,
+          postalCode: values.postalCode,
+          country: values.country,
+        },
+        contactInformation: {
+          email: values.email,
+          mobile: values.mobile,
+          twitter: values.twitter,
+          instagram: values.instagram,
+        },
+        openingHours: values.openingHours,
+        images: values.images,
+      };
+      console.log("data----", data);
+    },
   });
-  const handleImageChange = (e) => {};
-  const handleRemoveImage = (index) => {};
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setUploadImage(true);
+    //uploadedImage has the url of the image uploaded to cloudinary provided by the user
+    const uploadedImage = await uploadImageToCloudinary(file);
+    //This line updates the field "images" in Formik form using the setFieldValue function provided by
+    //Formik. It adds the newly uploaded image URL (uploadedImage) to the existing array of image URLs stored in formik.values.images
+    formik.setFieldValue("images", [...formik.values.images, uploadedImage]);
+    setUploadImage(false);
+  };
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...formik.values.images];
+    //removing 1 image at specified index from the array
+    updatedImages.splice(index, 1);
+    //updates the value of the "images" field in the Formik form with the updatedImages array
+    formik.setFieldValue("images", updatedImages);
+  };
   return (
     <div className="py-10 px-5  lg:flex items-center justify-center min-h-screen">
       <div className="lg:max-w-4xl ">
@@ -58,11 +97,11 @@ const CreateRestaurantForm = () => {
               </label>
 
               <div className="flex flex-wrap gap-2">
-                {[1, 1, 1].map((image, index) => (
+                {formik.values.images.map((image, index) => (
                   <div className="relative ">
                     <img
                       className="w-24 h-24 object-cover"
-                      src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2017/3/21/0/fnd_pasta-istock.jpg.rend.hgtvcom.1280.720.suffix/1490188710731.jpeg"
+                      src={image}
                       alt=""
                       key={index}
                     />
@@ -94,6 +133,8 @@ const CreateRestaurantForm = () => {
                 value={formik.values.name}
               />
             </Grid>
+
+            {/* description */}
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -215,6 +256,9 @@ const CreateRestaurantForm = () => {
               />
             </Grid>
           </Grid>
+          <Button variant="contained" color="primary" type="submit">
+            Create Restaurant
+          </Button>
         </form>
       </div>
     </div>
