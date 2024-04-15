@@ -11,18 +11,34 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Modal,
 } from "@mui/material";
 import React from "react";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  outline: "none",
+  p: 4,
+};
 
 const orders = [1, 1, 1, 1, 1, 1];
 
 const IngredientTable = () => {
+  const [openCreate, setOpenCreate] = React.useState(false);
+  const handleOpenCreate = () => setOpenCreate(true);
+  const handleCloseCreate = () => setOpenCreate(false);
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           action={
-            <IconButton>
+            <IconButton onClick={handleOpenCreate}>
               <Create />
             </IconButton>
           }
@@ -59,12 +75,17 @@ const IngredientTable = () => {
         </TableContainer>
       </Card>
 
-      {/* <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={restaurantsOrder.loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop> */}
+      <Modal
+        open={openCreate}
+        //clicking on the back drop and closing the form
+        onClose={handleCloseCreate}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          {/* when create is clicked form is closed (on submit) */}
+        </Box>
+      </Modal>
     </Box>
   );
 };

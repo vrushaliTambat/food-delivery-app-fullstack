@@ -1,4 +1,5 @@
 import { Create, Delete } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Card,
@@ -11,18 +12,38 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Modal,
 } from "@mui/material";
 import React from "react";
+import CreateCategoryForm from "./CreateCategoryForm";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  outline: "none",
+  p: 4,
+};
 
 const orders = [1, 1, 1, 1, 1, 1];
 
 const FoodCategoryTable = () => {
+  const dispatch = useDispatch();
+  const { auth, restaurant } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
+  const [openCreateCategory, setOpenCreateCategory] = React.useState(false);
+  const handleOpenCreateCategory = () => setOpenCreateCategory(true);
+  const handleCloseCreateCategory = () => setOpenCreateCategory(false);
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           action={
-            <IconButton>
+            <IconButton onClick={handleOpenCreateCategory}>
               <Create />
             </IconButton>
           }
@@ -55,12 +76,18 @@ const FoodCategoryTable = () => {
         </TableContainer>
       </Card>
 
-      {/* <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={restaurantsOrder.loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop> */}
+      <Modal
+        open={openCreateCategory}
+        //clicking on the back drop and closing the form
+        onClose={handleCloseCreateCategory}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          {/* when create is clicked form is closed (on submit) */}
+          <CreateCategoryForm handleClose={handleCloseCreateCategory} />
+        </Box>
+      </Modal>
     </Box>
   );
 };
