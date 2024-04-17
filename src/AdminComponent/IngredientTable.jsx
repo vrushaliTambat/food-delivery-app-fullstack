@@ -14,6 +14,7 @@ import {
   Modal,
 } from "@mui/material";
 import React from "react";
+import CreateIngredientForm from "./CreateIngredientForm";
 
 const style = {
   position: "absolute",
@@ -84,6 +85,7 @@ const IngredientTable = () => {
       >
         <Box sx={style}>
           {/* when create is clicked form is closed (on submit) */}
+          <CreateIngredientForm />
         </Box>
       </Modal>
     </Box>
