@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createCategoryAction } from "../customer/pages/State/Restaurant/Action";
 
-const CreateCategoryForm = () => {
+const CreateCategoryForm = ({ handleClose }) => {
   const { restaurant } = useSelector((store) => store);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -31,7 +31,8 @@ const CreateCategoryForm = () => {
     dispatch(
       createCategoryAction({ reqData: data, jwt: localStorage.getItem("jwt") })
     );
-    console.log(data);
+    handleClose();
+    console.log("Form submitted:", data);
   };
 
   return (

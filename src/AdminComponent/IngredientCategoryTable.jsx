@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import CreateIngredientCategoryForm from "./CreateIngredientCategoryForm";
+import { useDispatch, useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -33,6 +34,9 @@ const IngredientCategoryTable = () => {
   const [openCreate, setOpenCreate] = React.useState(false);
   const handleOpenCreate = () => setOpenCreate(true);
   const handleCloseCreate = () => setOpenCreate(false);
+  const dispatch = useDispatch();
+  const { restaurant } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
 
   return (
     <Box>

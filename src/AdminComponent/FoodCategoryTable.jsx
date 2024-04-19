@@ -14,8 +14,9 @@ import {
   TableRow,
   Modal,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CreateCategoryForm from "./CreateCategoryForm";
+import { getRestaurantsCategory } from "../customer/pages/State/Restaurant/Action";
 
 const style = {
   position: "absolute",
@@ -33,11 +34,22 @@ const orders = [1, 1, 1, 1, 1, 1];
 
 const FoodCategoryTable = () => {
   const dispatch = useDispatch();
-  const { auth, restaurant } = useSelector((store) => store);
+  const { restaurant } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
   const [openCreateCategory, setOpenCreateCategory] = React.useState(false);
   const handleOpenCreateCategory = () => setOpenCreateCategory(true);
   const handleCloseCreateCategory = () => setOpenCreateCategory(false);
+  // console.log("Restaurant Details", restaurant);
+
+  useEffect(() => {
+    dispatch(
+      getRestaurantsCategory({
+        jwt: jwt,
+        restaurantId: restaurant.usersRestaurant?.id,
+      })
+    );
+  }, []);
+
   return (
     <Box>
       <Card className="mt-1">
@@ -63,12 +75,12 @@ const FoodCategoryTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
+              {restaurant.categories.map((row) => (
                 <TableRow key={row.name} sx={{}}>
                   <TableCell component="th" scope="row">
-                    {1}
+                    {row?.id}
                   </TableCell>
-                  <TableCell align="left">{"name"}</TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

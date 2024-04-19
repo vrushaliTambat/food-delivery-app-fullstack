@@ -6,9 +6,14 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
+import { createIngredient } from "../customer/pages/State/Ingredients/Action";
 
 const CreateIngredientForm = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant } = useSelector((store) => store);
   const [formData, setFormData] = useState({
     name: "",
     ingredientCategoryId: "",
@@ -32,6 +37,7 @@ const CreateIngredientForm = () => {
       },
     };
     console.log(data);
+    dispatch(createIngredient({ data, jwt }));
   };
 
   return (

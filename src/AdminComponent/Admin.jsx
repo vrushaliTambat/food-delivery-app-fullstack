@@ -21,23 +21,17 @@ const Admin = () => {
   const { auth, restaurant } = useSelector((store) => store);
   useEffect(() => {
     if (restaurant.usersRestaurant) {
-      // dispatch(
-      //   getIngredientCategory({ jwt, id: restaurant.usersRestaurant?.id })
-      // );
-      // dispatch(
-      //   getIngredientsOfRestaurant({ jwt, id: restaurant.usersRestaurant?.id })
-      // );
       dispatch(
         getRestaurantsCategory({
-          jwt: auth.jwt || jwt,
+          jwt: jwt,
           restaurantId: restaurant.usersRestaurant?.id,
         })
       );
 
       dispatch(
         fetchRestaurantsOrder({
+          jwt: jwt,
           restaurantId: restaurant.usersRestaurant?.id,
-          jwt: auth.jwt || jwt,
         })
       );
     }
