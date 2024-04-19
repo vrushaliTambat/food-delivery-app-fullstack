@@ -1,7 +1,11 @@
 import { TextField, Button } from "@mui/material";
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createCategoryAction } from "../customer/pages/State/Restaurant/Action";
 
 const CreateCategoryForm = () => {
+  const { restaurant } = useSelector((store) => store);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     categoryName: "",
     restaurantId: "",
@@ -24,6 +28,9 @@ const CreateCategoryForm = () => {
         id: 1,
       },
     };
+    dispatch(
+      createCategoryAction({ reqData: data, jwt: localStorage.getItem("jwt") })
+    );
     console.log(data);
   };
 

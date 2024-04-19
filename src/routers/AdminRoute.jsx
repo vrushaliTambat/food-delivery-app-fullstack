@@ -12,7 +12,9 @@ const AdminRoute = () => {
         <Route
           path="/*"
           //if it has restaurants added then show the admin profile and if not then direct him to the create restaurant form
-          element={false ? <CreateRestaurantForm /> : <Admin />}
+          element={
+            !restaurant.usersRestaurant ? <CreateRestaurantForm /> : <Admin />
+          }
         />
       </Routes>
     </div>

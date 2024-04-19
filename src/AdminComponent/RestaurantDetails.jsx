@@ -1,15 +1,26 @@
 import { Button, Card, CardContent, CardHeader, Grid } from "@mui/material";
 import React from "react";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import { useSelector, useDispatch } from "react-redux";
+import { updateRestaurantStatus } from "../customer/pages/State/Restaurant/Action";
 
 const RestaurantDetails = () => {
-  const handleRestaurantStatus = () => {};
+  const { auth, restaurant } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const handleRestaurantStatus = () => {
+    dispatch(
+      updateRestaurantStatus({
+        restaurantId: restaurant.usersRestaurant.id,
+        jwt: localStorage.getItem("jwt"),
+      })
+    );
+  };
 
   return (
     <div className="lg:px-20 px-5 pb-10">
       <div className="py-5 flex justify-center items-center gap-5">
         <h1 className="text-2xl lg:text-7xl text-center font-bold p-5">
-          Checkers
+          {restaurant.usersRestaurant?.name}
         </h1>
         <div>
           <Button
@@ -18,9 +29,9 @@ const RestaurantDetails = () => {
             // sx={{ padding: "1rem 2rem" }}
             className="py-[1rem] px-[2rem]"
             variant="contained"
-            color={true ? "primary" : "error"}
+            color={!restaurant.usersRestaurant?.open ? "primary" : "error"}
           >
-            {true ? "Close" : "Open"}
+            {restaurant.usersRestaurant?.open ? "Close" : "Open"}
           </Button>
         </div>
       </div>
@@ -38,28 +49,31 @@ const RestaurantDetails = () => {
                   <p className="text-gray-400">
                     {" "}
                     <span className="pr-5">-</span>
-                    Vrushali
+                    {restaurant.usersRestaurant?.owner.fullName}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Restaurant Name</p>
                   <p className="text-gray-400">
                     {" "}
-                    <span className="pr-5">-</span> Vrushali
+                    <span className="pr-5">-</span>{" "}
+                    {restaurant.usersRestaurant?.name}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Cuisine Type</p>
                   <p className="text-gray-400">
                     {" "}
-                    <span className="pr-5">-</span> Italian
+                    <span className="pr-5">-</span>{" "}
+                    {restaurant.usersRestaurant?.cuisineType}
                   </p>
                 </div>
                 <div className="flex">
                   <p className="w-48">Opening Hours</p>
                   <p className="text-gray-400">
                     {" "}
-                    <span className="pr-5">-</span> 9:00AM-11:00PM
+                    <span className="pr-5">-</span>{" "}
+                    {restaurant.usersRestaurant?.openingHours}
                   </p>
                 </div>
                 <div className="flex">
@@ -67,24 +81,15 @@ const RestaurantDetails = () => {
                   <div className="text-gray-400">
                     {" "}
                     <span className="pr-5">-</span>
-                    {true ? (
+                    {restaurant.usersRestaurant?.open ? (
                       <span className="px-5 py-2 rounded-full bg-green-400 text-gray-950">
                         Open
                       </span>
                     ) : (
                       <span className="px-5 py-2 rounded-full bg-red-500 text-gray-950">
-                        Close
-                      </span>
-                    )}
-                    {/* {restaurant.usersRestaurant?.open ? (
-                      <span className="px-5 py-2 rounded-full bg-green-400 text-gray-950">
-                        Open
-                      </span>
-                    ) : (
-                      <span className="text-black px-5 py-2 rounded-full bg-red-400">
                         Closed
                       </span>
-                    )} */}
+                    )}
                   </div>
                 </div>
               </div>
@@ -143,7 +148,7 @@ const RestaurantDetails = () => {
                   <p className="text-gray-400">
                     {" "}
                     <span className="pr-5">-</span>
-                    vrushali2@gmail.com
+                    {restaurant.usersRestaurant?.contactInformation?.email}
                   </p>
                 </div>
                 <div className="flex">
@@ -151,8 +156,8 @@ const RestaurantDetails = () => {
                   <p className="text-gray-400">
                     {" "}
                     <span className="pr-5">-</span>
-                    {" +91"}
-                    5362353421
+                    {" +1"}
+                    {restaurant.usersRestaurant?.contactInformation?.mobile}
                   </p>
                 </div>
                 <div className="flex items-center">
@@ -160,7 +165,14 @@ const RestaurantDetails = () => {
                   <div className="text-gray-400 flex items-center pb-3 gap-2">
                     {" "}
                     <span className="pr-5">-</span>{" "}
-                    <a target="_blank" href="/" rel="noreferrer">
+                    <a
+                      target="_blank"
+                      href={
+                        restaurant.usersRestaurant?.contactInformation
+                          ?.instagram
+                      }
+                      rel="noreferrer"
+                    >
                       <InstagramIcon sx={{ fontSize: "3rem" }} />
                     </a>
                   </div>

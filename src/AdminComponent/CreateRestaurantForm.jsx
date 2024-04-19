@@ -6,6 +6,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { uploadImageToCloudinary } from "./UploadToCloudinary";
+import { useDispatch, useSelector } from "react-redux";
+import { createRestaurant } from "../customer/pages/State/Restaurant/Action";
 
 const initialValues = {
   name: "",
@@ -24,6 +26,8 @@ const initialValues = {
 
 const CreateRestaurantForm = () => {
   const [uploadImage, setUploadImage] = useState(false);
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
@@ -41,13 +45,13 @@ const CreateRestaurantForm = () => {
         contactInformation: {
           email: values.email,
           mobile: values.mobile,
-          twitter: values.twitter,
           instagram: values.instagram,
         },
         openingHours: values.openingHours,
         images: values.images,
       };
       console.log("data----", data);
+      dispatch(createRestaurant({ data, token: jwt }));
     },
   });
   const handleImageChange = async (e) => {
@@ -253,6 +257,18 @@ const CreateRestaurantForm = () => {
                 variant="outlined"
                 onChange={formik.handleChange}
                 value={formik.values.mobile}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                id="instagram"
+                name="instagram"
+                label="Instagram"
+                variant="outlined"
+                onChange={formik.handleChange}
+                value={formik.values.instagram}
               />
             </Grid>
           </Grid>
