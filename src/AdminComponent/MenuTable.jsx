@@ -1,7 +1,9 @@
 import { Create, Delete } from "@mui/icons-material";
 import {
+  Avatar,
   Box,
   Card,
+  Chip,
   CardActions,
   CardHeader,
   IconButton,
@@ -12,19 +14,35 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-
-const orders = [1, 1, 1, 1, 1, 1];
+import { getMenuItemsByRestaurantId } from "../customer/pages/State/Menu/Action";
 
 const MenuTable = () => {
+  const dispatch = useDispatch();
+  const { restaurant, menu } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(
+      getMenuItemsByRestaurantId({
+        restaurantId: restaurant.usersRestaurant?.id,
+        jwt: localStorage.getItem("jwt"),
+        seasonal: false,
+        vegetarian: false,
+        nonveg: false,
+        foodCategory: "",
+      })
+    );
+  }, []);
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           action={
-            <IconButton onClick={() => navigate("/admin/restaurants/add-menu")}>
+            <IconButton onClick={() => navigate("/admin/restaurant/add-menu")}>
               <Create />
             </IconButton>
           }
@@ -48,13 +66,17 @@ const MenuTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
-                <TableRow key={row.name} sx={{}}>
+              {menu.menuItems?.map((item) => (
+                <TableRow key={item.id} sx={{}}>
                   <TableCell component="th" scope="row">
-                    {1}
+                    <Avatar src={item.images[0]}></Avatar>
                   </TableCell>
-                  <TableCell align="right">{"image"}</TableCell>
-                  <TableCell align="right">{"123@gmail.com"}</TableCell>
+                  <TableCell align="right">{item.name}</TableCell>
+                  <TableCell align="right">
+                    {item.ingredients.map((ingredient) => (
+                      <Chip label={ingredient} />
+                    ))}
+                  </TableCell>
                   <TableCell align="right">{"price"}</TableCell>
                   <TableCell align="right">{"sandwich"}</TableCell>
                   <TableCell align="right">
