@@ -13,9 +13,10 @@ import {
   TableRow,
   Modal,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CreateIngredientCategoryForm from "./CreateIngredientCategoryForm";
 import { useDispatch, useSelector } from "react-redux";
+import { getIngredientCategory } from "../customer/pages/State/Ingredients/Action";
 
 const style = {
   position: "absolute",
@@ -35,8 +36,12 @@ const IngredientCategoryTable = () => {
   const handleOpenCreate = () => setOpenCreate(true);
   const handleCloseCreate = () => setOpenCreate(false);
   const dispatch = useDispatch();
-  const { restaurant } = useSelector((store) => store);
+  const { restaurant, ingredients } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
+
+  useEffect(() => {
+    dispatch(getIngredientCategory({ id: restaurant.usersRestaurant.id, jwt }));
+  }, []);
 
   return (
     <Box>
@@ -63,12 +68,12 @@ const IngredientCategoryTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
+              {ingredients.category.map((row) => (
                 <TableRow key={row.name} sx={{}}>
                   <TableCell component="th" scope="row">
-                    {1}
+                    {row.id}
                   </TableCell>
-                  <TableCell align="left">{"name"}</TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

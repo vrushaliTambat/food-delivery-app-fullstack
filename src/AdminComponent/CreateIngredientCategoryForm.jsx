@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import { TextField, Button, makeStyles, Card, Modal, Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { createIngredientCategory } from "../customer/pages/State/Ingredients/Action";
 
 const CreateIngredientCategoryForm = ({ handleClose }) => {
   //   const { id } = useParams();
-  //   const dispatch = useDispatch();
-  //   const { auth, restaurant } = useSelector((store) => store);
-  //   const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+  const { restaurant } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
 
   const [formData, setFormData] = useState({
     name: "",
   });
 
   const handleFormSubmit = (event) => {
-    //     event.preventDefault();
+    event.preventDefault();
+    const data = {
+      name: formData.name,
+      restaurantId: restaurant.usersRestaurant.id,
+    };
     console.log("Form submitted:", formData);
+    dispatch(createIngredientCategory({ data, jwt }));
     //     setFormData({
     //       name: "",
     //     });
@@ -21,8 +28,6 @@ const CreateIngredientCategoryForm = ({ handleClose }) => {
     //       name: formData.name,
     //       restaurantId: restaurant.usersRestaurant.id,
     //     };
-    //     // dispatch(createIngredientCategory({ data, jwt: auth.jwt || jwt }));
-    //     handleClose();
   };
 
   const handleInputChange = (event) => {

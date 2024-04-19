@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import CreateIngredientForm from "./CreateIngredientForm";
+import { useDispatch, useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -31,6 +32,9 @@ const style = {
 const orders = [1, 1, 1, 1, 1, 1];
 
 const IngredientTable = () => {
+  const dispatch = useDispatch();
+  const { restaurant, ingredients } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
   const [openCreate, setOpenCreate] = React.useState(false);
   const handleOpenCreate = () => setOpenCreate(true);
   const handleCloseCreate = () => setOpenCreate(false);
@@ -85,7 +89,7 @@ const IngredientTable = () => {
       >
         <Box sx={style}>
           {/* when create is clicked form is closed (on submit) */}
-          <CreateIngredientForm />
+          <CreateIngredientForm handleClose={handleCloseCreate} />
         </Box>
       </Modal>
     </Box>
