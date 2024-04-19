@@ -16,7 +16,7 @@ const CreateIngredientForm = ({ handleClose }) => {
   const { restaurant, ingredients } = useSelector((store) => store);
   const [formData, setFormData] = useState({
     name: "",
-    ingredientCategoryId: "",
+    categoryId: "",
   });
 
   const handleInputChange = (event) => {
@@ -36,7 +36,7 @@ const CreateIngredientForm = ({ handleClose }) => {
     };
     handleClose();
     console.log(data);
-    //dispatch(createIngredient({ data, jwt }));
+    dispatch(createIngredient({ data, jwt }));
   };
 
   return (
@@ -63,7 +63,7 @@ const CreateIngredientForm = ({ handleClose }) => {
               id="demo-simple-select"
               value={formData.ingredientCategoryId}
               label="Ingredient Category"
-              name="ingredientCategoryId"
+              name="categoryId"
               onChange={handleInputChange}
             >
               {ingredients.category.map((item) => (

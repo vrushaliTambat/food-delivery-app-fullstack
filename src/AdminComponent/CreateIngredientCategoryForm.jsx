@@ -21,6 +21,7 @@ const CreateIngredientCategoryForm = ({ handleClose }) => {
     };
     console.log("Form submitted:", formData);
     dispatch(createIngredientCategory({ data, jwt }));
+    handleClose();
     //     setFormData({
     //       name: "",
     //     });

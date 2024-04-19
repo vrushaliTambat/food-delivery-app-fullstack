@@ -12,10 +12,15 @@ import {
   TableHead,
   TableRow,
   Modal,
+  Button,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CreateIngredientForm from "./CreateIngredientForm";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getIngredientsOfRestaurant,
+  updateStockOfIngredient,
+} from "../customer/pages/State/Ingredients/Action";
 
 const style = {
   position: "absolute",
@@ -38,6 +43,16 @@ const IngredientTable = () => {
   const [openCreate, setOpenCreate] = React.useState(false);
   const handleOpenCreate = () => setOpenCreate(true);
   const handleCloseCreate = () => setOpenCreate(false);
+
+  useEffect(() => {
+    dispatch(
+      getIngredientsOfRestaurant({ jwt, id: restaurant.usersRestaurant.id })
+    );
+  }, []);
+
+  const handleUpdateStock = (id) => {
+    dispatch(updateStockOfIngredient({ id, jwt }));
+  };
   return (
     <Box>
       <Card className="mt-1">
@@ -65,14 +80,18 @@ const IngredientTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
-                <TableRow key={row.name} sx={{}}>
+              {ingredients.ingredients.map((item) => (
+                <TableRow key={item.name} sx={{}}>
                   <TableCell component="th" scope="row">
-                    {1}
+                    {item.id}
                   </TableCell>
-                  <TableCell align="right">{"image"}</TableCell>
-                  <TableCell align="right">{"price"}</TableCell>
-                  <TableCell align="right">{"sandwich"}</TableCell>
+                  <TableCell align="right">{item.name}</TableCell>
+                  <TableCell align="right">{item.category.name}</TableCell>
+                  <TableCell align="right">
+                    <Button onClick={() => handleUpdateStock(item.id)}>
+                      {item.inStock ? "In Stock" : "Out of Stock"}
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

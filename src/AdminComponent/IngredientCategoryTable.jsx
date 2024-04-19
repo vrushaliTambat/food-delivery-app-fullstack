@@ -97,7 +97,7 @@ const IngredientCategoryTable = () => {
       >
         <Box sx={style}>
           {/* when create is clicked form is closed (on submit) */}
-          <CreateIngredientCategoryForm />
+          <CreateIngredientCategoryForm handleClose={handleCloseCreate} />
         </Box>
       </Modal>
     </Box>
