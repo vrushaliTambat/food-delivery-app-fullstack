@@ -15,6 +15,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { uploadImageToCloudinary } from "./UploadToCloudinary";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import { useNavigate } from "react-router-dom";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,6 +37,7 @@ const initialValues = {
 
 const CreateMenuForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { restaurant, ingredients } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
   const [uploadImage, setUploadImage] = useState(false);
@@ -248,7 +250,12 @@ const CreateMenuForm = () => {
               </FormControl>
             </Grid>
           </Grid>
-          <Button variant="contained" color="primary" type="submit">
+          <Button
+            //onClick={() => history.push("/admin/restaurant/menu")}
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
             Create Menu Item
           </Button>
         </form>

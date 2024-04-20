@@ -17,7 +17,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getMenuItemsByRestaurantId } from "../customer/pages/State/Menu/Action";
+import {
+  deleteFoodAction,
+  getMenuItemsByRestaurantId,
+} from "../customer/pages/State/Menu/Action";
 
 const MenuTable = () => {
   const dispatch = useDispatch();
@@ -37,6 +40,11 @@ const MenuTable = () => {
       })
     );
   }, []);
+
+  const handleDeleteFood = (foodId) => {
+    dispatch(deleteFoodAction({ foodId, jwt }));
+  };
+
   return (
     <Box>
       <Card className="mt-1">
@@ -68,19 +76,24 @@ const MenuTable = () => {
             <TableBody>
               {menu.menuItems?.map((item) => (
                 <TableRow key={item.id} sx={{}}>
-                  <TableCell component="th" scope="row">
-                    <Avatar src={item.images[0]}></Avatar>
+                  <TableCell>
+                    <Avatar alt={item.name} src={item.images[0]}></Avatar>
                   </TableCell>
                   <TableCell align="right">{item.name}</TableCell>
                   <TableCell align="right">
                     {item.ingredients.map((ingredient) => (
-                      <Chip label={ingredient} />
+                      <Chip label={ingredient.name} />
                     ))}
                   </TableCell>
-                  <TableCell align="right">{"price"}</TableCell>
-                  <TableCell align="right">{"sandwich"}</TableCell>
+                  <TableCell align="right">${item.price}</TableCell>
                   <TableCell align="right">
-                    <IconButton>
+                    {item.available ? "IN STOCK" : "OUT OF STOCK"}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleDeleteFood(item.id)}
+                    >
                       <Delete />
                     </IconButton>
                   </TableCell>

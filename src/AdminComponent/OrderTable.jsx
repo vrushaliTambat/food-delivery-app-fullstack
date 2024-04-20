@@ -1,6 +1,9 @@
 import {
+  Avatar,
+  AvatarGroup,
   Box,
   Card,
+  Chip,
   CardHeader,
   Table,
   TableBody,
@@ -9,11 +12,25 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRestaurantsOrder } from "../customer/pages/State/RestaurantOrder/Action";
 
 const orders = [1, 1, 1, 1, 1, 1];
 
 const OrderTable = () => {
+  const dispatch = useDispatch();
+  const { restaurant, restaurantOrder, menu } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
+
+  useEffect(() => {
+    dispatch(
+      fetchRestaurantsOrder({
+        jwt,
+        restaurantId: restaurant.usersRestaurant?.id,
+      })
+    );
+  }, []);
   return (
     <Box>
       <Card className="mt-1">
@@ -41,16 +58,37 @@ const OrderTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
-                <TableRow key={row.name} sx={{}}>
+              {restaurantOrder.orders.map((item) => (
+                <TableRow key={item.name} sx={{}}>
                   <TableCell component="th" scope="row">
-                    {1}
+                    {item.id}
                   </TableCell>
-                  <TableCell align="right">{"image"}</TableCell>
-                  <TableCell align="right">{"123@gmail.com"}</TableCell>
-                  <TableCell align="right">{"price"}</TableCell>
-                  <TableCell align="right">{"sandwich"}</TableCell>
-                  <TableCell align="right">{"ingredients"}</TableCell>
+                  <TableCell align="right">
+                    <AvatarGroup>
+                      {item.items.map((orderItem) => (
+                        <Avatar src={orderItem.food?.images[0]} />
+                      ))}
+                    </AvatarGroup>
+                  </TableCell>
+                  <TableCell align="right">
+                    {orders.customer?.fullName}
+                  </TableCell>
+                  <TableCell align="right">${item.totalAmount}</TableCell>
+                  <TableCell align="right">
+                    {item.items.map((orderItem) => (
+                      <p>{orderItem.food?.name}</p>
+                    ))}
+                  </TableCell>
+                  <TableCell align="right">
+                    {" "}
+                    {item.items.map((orderItem) => (
+                      <div>
+                        {orderItem.ingredients.map((ingredient) => (
+                          <Chip label={ingredient} />
+                        ))}
+                      </div>
+                    ))}
+                  </TableCell>
                   <TableCell align="right">{"completed"}</TableCell>
                 </TableRow>
                 // <TableRow
