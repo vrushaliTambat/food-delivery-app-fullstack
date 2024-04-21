@@ -11,17 +11,37 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  MenuItem,
+  Menu,
+  Button,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRestaurantsOrder } from "../customer/pages/State/RestaurantOrder/Action";
+import {
+  fetchRestaurantsOrder,
+  updateOrderStatus,
+} from "../customer/pages/State/RestaurantOrder/Action";
 
-const orders = [1, 1, 1, 1, 1, 1];
+const orderStatus = [
+  { label: "Pending", value: "PENDING" },
+  { label: "Completed", value: "COMPLETED" },
+  { label: "Out For Delivery", value: "OUT_FOR_DELIVERY" },
+  { label: "Delivered", value: "DELIVERED" },
+];
 
 const OrderTable = () => {
   const dispatch = useDispatch();
   const { restaurant, restaurantOrder, menu } = useSelector((store) => store);
   const jwt = localStorage.getItem("jwt");
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     dispatch(
@@ -31,6 +51,12 @@ const OrderTable = () => {
       })
     );
   }, []);
+
+  const handleUpdateOrder = (orderId, orderStatus) => {
+    dispatch(updateOrderStatus({ orderId, orderStatus, jwt }));
+    handleClose();
+  };
+
   return (
     <Box>
       <Card className="mt-1">
@@ -45,7 +71,7 @@ const OrderTable = () => {
           <Table sx={{}} aria-label="table in dashboard">
             <TableHead>
               <TableRow>
-                <TableCell align="right">Id</TableCell>
+                <TableCell align="left">Id</TableCell>
                 <TableCell align="right">Image</TableCell>
                 <TableCell align="right">Customer</TableCell>
                 <TableCell align="right">Price</TableCell>
@@ -70,9 +96,7 @@ const OrderTable = () => {
                       ))}
                     </AvatarGroup>
                   </TableCell>
-                  <TableCell align="right">
-                    {orders.customer?.fullName}
-                  </TableCell>
+                  <TableCell align="right">{item.customer?.fullName}</TableCell>
                   <TableCell align="right">${item.totalAmount}</TableCell>
                   <TableCell align="right">
                     {item.items.map((orderItem) => (
@@ -80,7 +104,6 @@ const OrderTable = () => {
                     ))}
                   </TableCell>
                   <TableCell align="right">
-                    {" "}
                     {item.items.map((orderItem) => (
                       <div>
                         {orderItem.ingredients.map((ingredient) => (
@@ -89,7 +112,37 @@ const OrderTable = () => {
                       </div>
                     ))}
                   </TableCell>
-                  <TableCell align="right">{"completed"}</TableCell>
+                  <TableCell align="right">{item.orderStatus}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      Update
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      {orderStatus.map((status) => (
+                        <MenuItem
+                          onClick={() =>
+                            handleUpdateOrder(item.id, status.value)
+                          }
+                        >
+                          {status.label}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </TableCell>
                 </TableRow>
                 // <TableRow
                 //   className="cursor-pointer"

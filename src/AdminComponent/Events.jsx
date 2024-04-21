@@ -3,7 +3,9 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Box, Button, Grid, Modal, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { createEventAction } from "../customer/pages/State/Restaurant/Action";
 
 const style = {
   position: "absolute",
@@ -26,11 +28,22 @@ const initialValues = {
 };
 
 const Events = () => {
+  const dispatch = useDispatch();
+  const { restaurant } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(
+      createEventAction({
+        data: formValues,
+        restaurantId: restaurant.usersRestaurant?.id,
+        jwt,
+      })
+    );
     setFormValues(initialValues);
   };
 
